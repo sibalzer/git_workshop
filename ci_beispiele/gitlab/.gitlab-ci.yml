@@ -1,0 +1,15 @@
+stages:
+  - build
+  - deploy
+test:
+  stage: unit_test
+  script:
+    - python -m unittest discover tests
+deploy_aws:
+  stage: deploy
+  before_script:
+    - pip install awsebcli --upgrade --user
+    - chmod +x ./config.sh
+    - git checkout master
+  script:
+    - /root/.local/bin/eb deploy flask-app
